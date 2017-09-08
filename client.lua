@@ -82,8 +82,6 @@ function sit(object)
 		FreezeEntityPosition(object, true)
 		local objinfo = {}
 		for k,v in pairs(Config.Sitable) do
-			print(tostring(GetHashKey(v.prop)))
-			print(tostring(GetEntityModel(object)))
 			if tostring(GetHashKey(v.prop)) == tostring(GetEntityModel(object)) then
 				objinfo = v
 			end
