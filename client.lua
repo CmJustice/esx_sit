@@ -23,6 +23,7 @@ Citizen.CreateThread(function()
 	end
 end)
 
+
 function headsUp(text)
 	SetTextComponentFormat('STRING')
 	AddTextComponentString(text)
@@ -37,8 +38,25 @@ Citizen.CreateThread(function()
 	end
 	while true do
 		Wait(0)
-		local object, distance = ESX.Game.GetClosestObject(objects)
-		if distance < Config.MaxDistance and sitting == false then
+		--local object, distance = ESX.Game.GetClosestObject(objects)
+		local list = {}
+		for k,v in pairs(objects) do
+			local obj = GetClosestObjectOfType(GetEntityCoords(ped).x, GetEntityCoords(ped).y, GetEntityCoords(ped).z, 3.0, GetHashKey(v), false, true ,true)
+			local dist = GetDistanceBetweenCoords(GetEntityCoords(ped), GetEntityCoords(obj), true)
+			table.insert(list, {object = obj, distance = dist})
+		end
+
+		local closest = list[1]
+		for k,v in pairs(list) do
+			if v.distance < closest.distance then
+				closest = v
+			end
+		end
+
+		local distance = closest.distance
+		local object = closest.object
+
+		if distance < Config.MaxDistance and sitting == false and DoesEntityExist(object) then
 			headsUp('You are near an object you can sit on! Press ~INPUT_CONTEXT~ to sit!')
 			DrawMarker(0, GetEntityCoords(object).x, GetEntityCoords(object).y, GetEntityCoords(object).z+1.5, 0.0, 0.0, 0.0, 0, 0.0, 0.0, 0.5, 0.5, 0.5, 0, 255, 0, 100, false, true, 2, false, false, false, false)
 			if IsControlJustPressed(0, Keys['E']) then
