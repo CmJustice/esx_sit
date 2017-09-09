@@ -68,7 +68,7 @@ Citizen.CreateThread(function()
 			if IsControlJustPressed(0, Keys['X']) then
 				ClearPedTasks(ped)
 				sitting = false
-				SetEntityCoords(lastPos)
+				SetEntityCoords(ped, lastPos)
 				FreezeEntityPosition(ped, false)
 				FreezeEntityPosition(currentSitObj, false)
 				TriggerServerEvent('sit:unoccupyObj', currentSitObj)
